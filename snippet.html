@@ -1,0 +1,24 @@
+
+<!-- Numbered Pagination -->
+<nav class="blog-pagination">
+    {% set offset = 2 %}
+    {% set page_list = range(-offset, offset + 1 ) %}
+    {# set page_list = [-2, -1, 0, 1, 2] #} {# offset array, as example #}
+
+    {% for page in page_list -%} 
+        {% set link_num = current_page_num + page %} {# offset page #}
+
+        {% if loop.first && current_page_num > 1 -%}
+            <a class="prev" href="{{ blog_link_num(1) }}" data-num="1">❮</a>
+        {%- endif %}
+
+        {# if the offset page to display is >= 1 and <= totals #}
+        {% if link_num >= 1 && link_num <= contents.total_page_count -%} 
+             <a {% if link_num == current_page_num %}class="active"{% else %} href="{# blog_link_num(link_num) #}"{% endif %} data-num="{{ link_num }}">{{ link_num }}</a>
+        {%- endif %}
+
+        {% if loop.last && current_page_num < contents.total_page_count -%}
+            <a class="next" href="{{ blog_link_num(contents.total_page_count) }}" data-num="{{ contents.total_page_count }}">❯</a>
+        {%- endif %}
+    {%- endfor %}
+</nav>
